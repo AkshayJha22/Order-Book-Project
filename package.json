@@ -1,0 +1,28 @@
+{
+  "name": "orderbook-live",
+  "version": "1.0.0",
+  "description": "Real-time L2 order book: exchange feed sync, conflated fan-out, canvas rendering.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "synthetic": "tsx src/server.ts --source=synthetic --rate=500",
+    "chaos": "tsx src/server.ts --source=synthetic --rate=500 --inject-gaps=0.002",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "bench": "node bench/loadtest.js",
+    "test": "tsx --test test/sync.test.ts"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "@types/ws": "^8.5.12",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  }
+}

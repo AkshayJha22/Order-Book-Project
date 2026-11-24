@@ -1,0 +1,239 @@
+/* ---------------------------------------------------------------------------
+   Palette: a trading terminal rendered as printed matter rather than the usual
+   black-and-neon. Cool paper ground, ink type, and exactly two data colours —
+   bid ink-blue and ask burnt-red — so the depth bars are the only saturated
+   thing on the page. Amber is reserved: it appears only when latency exceeds
+   budget, which makes colour itself carry information.
+   ------------------------------------------------------------------------ */
+
+:root {
+  --paper: #e4e5e0;
+  --panel: #f0f0ec;
+  --ink: #15171b;
+  --ink-mid: #5c616b;
+  --ink-faint: #9aa0a8;
+  --rule: #c6c8c1;
+  --bid: #1b4d89;
+  --ask: #a8362a;
+  --warn: #c77b1f;
+  --ok: #2f6b46;
+
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --cond: "IBM Plex Sans Condensed", "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  /* A faint horizontal rule texture, like continuous-feed printer paper. */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 27px,
+    rgba(21, 23, 27, 0.022) 27px 28px
+  );
+}
+
+.eyebrow {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* --- masthead ----------------------------------------------------------- */
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px 12px;
+  border-bottom: 1px solid var(--rule);
+  flex-wrap: wrap;
+}
+
+.masthead__id {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.masthead__id h1 {
+  font-family: var(--cond);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.masthead__state {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.lamp {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  flex: none;
+}
+.lamp[data-state="live"] {
+  background: var(--ok);
+}
+.lamp[data-state="resyncing"],
+.lamp[data-state="buffering"] {
+  background: var(--warn);
+}
+.lamp[data-state="disconnected"] {
+  background: var(--ask);
+}
+
+.state-text {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.state-detail {
+  color: var(--ink-faint);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* --- latency ribbon ----------------------------------------------------- */
+
+.ribbon {
+  padding: 10px 20px 0;
+  border-bottom: 1px solid var(--rule);
+  background: var(--panel);
+}
+
+.ribbon__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ribbon__stats {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+.ribbon__stats b {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ink);
+  margin-right: 3px;
+}
+
+.ribbon__stats .sep {
+  width: 1px;
+  height: 11px;
+  background: var(--rule);
+}
+
+#ribbon {
+  display: block;
+  width: 100%;
+  height: 46px;
+}
+
+/* --- board -------------------------------------------------------------- */
+
+.board {
+  flex: 1;
+  min-height: 0;
+  padding: 12px 20px;
+}
+
+#book {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- footnote ----------------------------------------------------------- */
+
+.footnote {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 20px 14px;
+  border-top: 1px solid var(--rule);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-faint);
+  flex-wrap: wrap;
+}
+
+.footnote a {
+  color: var(--ink-mid);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+.footnote a:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+a:focus-visible,
+canvas:focus-visible {
+  outline: 2px solid var(--bid);
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .masthead {
+    padding: 14px 14px 10px;
+  }
+  .ribbon,
+  .board,
+  .footnote {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .ribbon__stats {
+    gap: 10px;
+  }
+  .state-detail {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

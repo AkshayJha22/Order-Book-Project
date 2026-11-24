@@ -231,5 +231,3 @@ bench/           load harness
 `sync.ts` deliberately knows nothing about websockets, HTTP, or which exchange
 it is talking to. That separation is what lets the simulator drive the real code
 path instead of a parallel copy of it.
-#   O r d e r - B o o k - P r o j e c t  
- 

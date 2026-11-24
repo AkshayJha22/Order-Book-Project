@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Order book · live</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="masthead__id">
+        <h1 id="symbol">—</h1>
+        <span class="eyebrow" id="source">connecting</span>
+      </div>
+
+      <div class="masthead__state">
+        <span class="lamp" id="lamp" aria-hidden="true"></span>
+        <span class="state-text" id="stateText">connecting</span>
+        <span class="state-detail" id="stateDetail"></span>
+      </div>
+    </header>
+
+    <!-- Signature element: every frame's tick-to-paint latency, drawn live.
+         The thing this project is about is the thing you look at. -->
+    <section class="ribbon" aria-label="Rendering latency, most recent frames">
+      <div class="ribbon__head">
+        <span class="eyebrow">tick → paint</span>
+        <div class="ribbon__stats">
+          <span><b id="latP50">—</b> p50</span>
+          <span><b id="latP99">—</b> p99</span>
+          <span><b id="latMax">—</b> max</span>
+          <span class="sep"></span>
+          <span><b id="fps">—</b> fps</span>
+          <span><b id="rate">—</b> msg/s</span>
+          <span><b id="skipped">0</b> skipped</span>
+        </div>
+      </div>
+      <canvas id="ribbon"></canvas>
+    </section>
+
+    <main class="board">
+      <canvas id="book"></canvas>
+    </main>
+
+    <footer class="footnote">
+      <span
+        >Latency is measured from the server's send timestamp to the completion
+        of the browser's draw call. Both clocks are the same machine when run
+        locally; across hosts this number carries the clock skew between
+        them.</span
+      >
+      <a href="/metrics" target="_blank" rel="noopener">server metrics →</a>
+    </footer>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
